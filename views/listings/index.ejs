@@ -1,28 +1,28 @@
 <% layout("/layouts/boilerplate") %>
 
-    <body>
-        <h3>AllListings</h3>
-        <!-- <form method="get" action="/listings/new" >
+        <body>
+            <h3>AllListings</h3>
+            <!-- <form method="get" action="/listings/new" >
         <button>Create new listing</button>
     </form> -->
 
-        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
-            <% for(listing of allListings){%>
-                <a href="/listings/<%= listing._id %>" class="card-link">
-                    <div class="card col listing-card">
-                        <img src="<%= listing.image %>" style="height: 20rem;" class="card-img-top" alt="...">
-                        <div class="card-img-overlay"></div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                <b>
-                                    <%=listing.title%>
-                                </b> <br>
-                                &#8377;<%= listing.price.toLocaleString("en-IN")%>/night
-                            </p>
+            <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
+                <% for(listing of allListings){%>
+                    <a href="/listings/<%= listing._id %>" class="card-link">
+                        <div class="card col listing-card">
+                            <img src="<%= listing.image %>" style="height: 20rem;" class="card-img-top" alt="...">
+                            <div class="card-img-overlay"></div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <b>
+                                        <%=listing.title%>
+                                    </b> <br>
+                                    &#8377;<%= listing.price.toLocaleString("en-IN")%>/night
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <% } %>
-        </div>
+                    </a>
+                    <% } %>
+            </div>
 
-    </body>
+        </body>

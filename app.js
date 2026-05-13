@@ -10,6 +10,7 @@ const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./schemaValidate.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 //for ejs
 const path = require("path");
 
@@ -37,7 +38,7 @@ const sessionOptions = {
     httpOnly: true,
   },
 };
-app.use(session(sessionOptions));
+
 //require listings from listings.js :Reconstruct
 const listings = require("./routes/listings.js");
 //require reviews from reviews.js :Reconstruct
@@ -58,6 +59,14 @@ main()
 //create a first route:
 app.get("/", (req, res) => {
   res.send("done");
+});
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
 });
 
 //listings routes: Reconstruct
