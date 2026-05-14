@@ -11,6 +11,10 @@ const { listingSchema, reviewSchema } = require("./schemaValidate.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+//for authentication:
+const passport = require("passport");
+const LocalStatergy = require("passport-local");
+const User = require("./models/user.js");
 //for ejs
 const path = require("path");
 
@@ -63,6 +67,9 @@ app.get("/", (req, res) => {
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserlizaUser());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
