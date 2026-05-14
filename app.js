@@ -68,6 +68,10 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
+//Middlewares for authenticate
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStatergy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserlizaUser());
 
