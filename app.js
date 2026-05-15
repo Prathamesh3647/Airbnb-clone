@@ -44,9 +44,12 @@ const sessionOptions = {
 };
 
 //require listings from listings.js :Reconstruct
-const listings = require("./routes/listings.js");
+const listingRouter = require("./routes/listings.js");
 //require reviews from reviews.js :Reconstruct
-const reviews = require("./routes/reviews.js");
+const reviewRouter = require("./routes/reviews.js");
+//require reviews from user.js :Reconstruct
+const userRouter = require("./routes/user.js");
+
 //set up
 async function main() {
   await mongoose.connect(MONGO_URL);
@@ -73,7 +76,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStatergy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserlizaUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
@@ -82,9 +85,11 @@ app.use((req, res, next) => {
 });
 
 //listings routes: Reconstruct
-app.use("/listings", listings);
+app.use("/listings", listingRouter);
 //reviews routes: Reconstruct
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings/:id/reviews", reviewRouter);
+//user routes: Reconstruct
+app.use("/", userRouter);
 
 // new route for check listing
 // app.get("/listing",async (req,res)=>{
