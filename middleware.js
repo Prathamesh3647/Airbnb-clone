@@ -1,15 +1,14 @@
-module.exports.isLoggedIn = (req,res,next)=>{
-    if(!req.isAuthenticated()){
-        req.session.redirectUrl = req.originalUrl;//it will get orignal path after clicking on any path
-        req.flash("error","User must logged in");
-        return res.redirect("/login");
-    }
-    next();
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.redirectUrl = req.originalUrl; //it will get orignal path after clicking on any path
+    req.flash("error", "User must logged in");
+    return res.redirect("/login");
+  }
+  next();
 };
-
-module.exports.saveRedirectUrl = (req,res,next)=>{
-    if(req.session.redirectUrl){
-        res.locals.redirectUrl = req.session.redirectUrl;
-    }
-    next();
+module.exports.saveRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
+  }
+  next();
 };

@@ -36,7 +36,8 @@ router.get("/login", (req, res) => {
 });
 // This is for authenticate user if didn't go to login and show flash error
 router.post(
-  "/login",saveRedirectUrl,
+  "/login",
+  saveRedirectUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
