@@ -9,6 +9,7 @@
       <img src="<%=listing.image%>" class="card-img-top show_image" alt="show_image" />
       <div class="card-body">
         <p class="card-text">
+          <p>Owned by <i><%= listing.owner.username %></i></p>
           <%= listing.description%> <br />
             &#8377;<%= listing.price.toLocaleString("en-IN")%>/night <br />
               <%= listing.location%> <br />
@@ -59,7 +60,8 @@
                       <% } %>
                         <% } %>
               </p>
-              <form class="mb-3" method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+              <form class="mb-3" method="post"
+                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                 <button class="btn btn-sm btn-dark ">Delete</button>
               </form>
             </div>
