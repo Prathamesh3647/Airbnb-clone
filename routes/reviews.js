@@ -1,21 +1,12 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true }); //mergeParams helps to access values from parent route it means we can fetch id on line no 23
-const { listingSchema, reviewSchema } = require("../schemaValidate.js");
+const { reviewSchema } = require("../schemaValidate.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const Review = require("../models/review.js");
-const Listing = require("../models/listing.js"); // reuire from models folder
+const Listing = require("../models/listing.js"); 
+const {validateReview} = require("../middleware.js");
 
-//validate review by joi
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new expressError(400, errMsg);
-  } else {
-    next();
-  }
-};
 //reviews
 //post route : add review
 router.post(
