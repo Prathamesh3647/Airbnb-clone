@@ -12,7 +12,7 @@ module.exports.validateListing = (req, res, next) => {
     next();
   }
 };
-//validate review by joi
+//validate review by joi:
 module.exports.validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
   if (error) {
