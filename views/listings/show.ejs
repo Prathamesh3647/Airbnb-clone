@@ -17,15 +17,18 @@
         </p>
       </div>
     </div>
+    <% if(currentUser && listing.owner._id.equals(currentUser._id)) { %>
     <div class="btns">
       <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-3 btn-edit">Edit</a>
       <form action="/listings/<%=listing._id%>?_method=DELETE" method="post">
         <button class="btn btn-dark offset-5">Delete</button>
       </form>
     </div>
+    <% } %>
     <!-- for reviews -->
     <div class="col-8 offset-3 mt-3">
       <hr>
+      <% if(currentUser) { %>
       <h4>Leave a review</h4>
       <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
         <div class="mb-3 mt-3">
@@ -39,7 +42,7 @@
         </div>
         <button class="btn btn-outline-dark">Submit</button>
       </form>
-      <hr>
+      <% } %>
       <!-- all reviews -->
       <p><b>All reviews</b></p>
       <div class="row">
