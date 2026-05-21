@@ -8,17 +8,13 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const expressError = require("../utils/expressError.js");
 const { listingSchema } = require("../schemaValidate.js");
 
-const listingControllers=require("../controllers/listings.js");
+const listingControllers = require("../controllers/listings.js");
 
 //all listings
 router
   .route("/")
   .get(wrapAsync(listingControllers.index))
-  .post(
-    isLoggedIn,
-    validateListing,
-    wrapAsync(listingControllers.addListing)
-  );//save in db or create route
+  .post(isLoggedIn, validateListing, wrapAsync(listingControllers.addListing)); //save in db or create route
 
 //new listing
 router.get("/new", isLoggedIn, listingControllers.renderNewForm);
@@ -30,12 +26,9 @@ router
     isLoggedIn,
     isOwner,
     validateListing,
-    wrapAsync(listingControllers.updateListing))
-  .delete(
-    isLoggedIn,
-    isOwner,
-    wrapAsync(listingControllers.destroyListing)
-  );
+    wrapAsync(listingControllers.updateListing),
+  )
+  .delete(isLoggedIn, isOwner, wrapAsync(listingControllers.destroyListing));
 
 //edit route
 router.get(
