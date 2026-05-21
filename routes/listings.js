@@ -11,45 +11,38 @@ const { listingSchema } = require("../schemaValidate.js");
 const listingControllers=require("../controllers/listings.js");
 
 //all listings
-router.get(
-  "/",
-  wrapAsync(listingControllers.index),
-);
+router
+  .route("/")
+  .get(wrapAsync(listingControllers.index))
+  .post(
+    isLoggedIn,
+    validateListing,
+    wrapAsync(listingControllers.addListing)
+  );//save in db or create route
+
 //new listing
 router.get("/new", isLoggedIn, listingControllers.renderNewForm);
-//show route
-router.get(
-  "/:id",
-  wrapAsync(listingControllers.showListings),
-);
-//save in db or create route
-router.post(
-  "/",
-  isLoggedIn,
-  validateListing,
-  wrapAsync(listingControllers.addListing),
-);
+
+router
+  .route("/:id")
+  .get(wrapAsync(listingControllers.showListings))
+  .put(
+    isLoggedIn,
+    isOwner,
+    validateListing,
+    wrapAsync(listingControllers.updateListing))
+  .delete(
+    isLoggedIn,
+    isOwner,
+    wrapAsync(listingControllers.destroyListing)
+  );
+
 //edit route
 router.get(
   "/:id/edit",
   isLoggedIn,
   isOwner,
   wrapAsync(listingControllers.editListing),
-);
-//update route
-router.put(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  validateListing,
-  wrapAsync(listingControllers.updateListing),
-);
-// delete route
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  wrapAsync(listingControllers.destroyListing),
 );
 
 module.exports = router;
