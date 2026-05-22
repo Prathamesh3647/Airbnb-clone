@@ -9,6 +9,8 @@ const expressError = require("../utils/expressError.js");
 const { listingSchema } = require("../schemaValidate.js");
 
 const listingControllers = require("../controllers/listings.js");
+const multer  = require('multer');//for parse data enctype="multipart/form-data"
+const upload = multer({ dest: 'uploads/' });
 
 //all listings
 router
