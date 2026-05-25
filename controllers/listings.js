@@ -23,7 +23,7 @@ module.exports.addListing = async (req, res, next) => {
   let filename = req.file.public_id;
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  newListing.image={url,filename};
+  newListing.image = { url, filename };
   await newListing.save();
   req.flash("success", "Listing added successfully");
   res.redirect("/listings");
@@ -36,10 +36,10 @@ module.exports.editListing = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  if(typeof req.file !=="undefined"){
+  if (typeof req.file !== "undefined") {
     let url = req.file.url;
     let filename = req.file.public_id;
-    listing.image = {url,filename};
+    listing.image = { url, filename };
     await listing.save();
   }
   req.flash("success", "Listing updated successfully");

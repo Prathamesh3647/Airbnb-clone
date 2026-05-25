@@ -9,7 +9,7 @@ const expressError = require("../utils/expressError.js");
 const { listingSchema } = require("../schemaValidate.js");
 
 const listingControllers = require("../controllers/listings.js");
-const multer = require('multer'); // for parse data enctype="multipart/form-data"
+const multer = require("multer"); // for parse data enctype="multipart/form-data"
 const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
 
@@ -17,7 +17,12 @@ const upload = multer({ storage });
 router
   .route("/")
   .get(wrapAsync(listingControllers.index))
-  .post(isLoggedIn,upload.single("listing[image]"),  validateListing, wrapAsync(listingControllers.addListing)); //save in db or create route
+  .post(
+    isLoggedIn,
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingControllers.addListing),
+  ); //save in db or create route
 
 //new listing
 router.get("/new", isLoggedIn, listingControllers.renderNewForm);
