@@ -35,11 +35,9 @@ module.exports.editListing = async (req, res) => {
     req.flash("error", "Listing you requested for does not exist");
     return res.redirect("/listings");
   }
-  let originalImageUrl = listing.image.url ;
-  
-  originalImageUrl = originalImageUrl.replace("/upload","/upload/h_300,w_250");
-  console.log(originalImageUrl);
-  res.render("listings/edit.ejs", { listing,originalImageUrl });
+  let originalImageUrl = listing.image.url;
+  originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
+  res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
@@ -47,7 +45,7 @@ module.exports.updateListing = async (req, res) => {
   if (typeof req.file !== "undefined") {
     let url = req.file.url;
     let filename = req.file.public_id;
-    listing.image = {url,filename};
+    listing.image = { url, filename };
     await listing.save();
   }
   req.flash("success", "Listing updated successfully");
