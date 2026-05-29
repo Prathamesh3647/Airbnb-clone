@@ -18,7 +18,8 @@
                 opacity: 1;
                 cursor: pointer;
             }
-            .filters p{
+
+            .filters p {
                 font-size: 0.8rem;
             }
         </style>
@@ -60,10 +61,6 @@
                 <p>Arctic</p>
             </div>
             <div class="filters">
-                <i class="fa-solid fa-temperature-arrow-up"></i>
-                <p>Desert</p>
-            </div>
-            <div class="filters">
                 <i class="fa-solid fa-umbrella-beach"></i>
                 <p>Beach</p>
             </div>
@@ -71,7 +68,12 @@
                 <i class="fa-solid fa-house-flood-water"></i>
                 <p>Island</p>
             </div>
-            
+            <div id="tax-toggle">
+                <div class="form-check-reverse form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    <label class="form-check-label" for="switchCheckDefault">Default switch </label>
+                </div>
+            </div>
         </div>
         <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 mt-2">
             <% for(listing of allListings){%>
@@ -93,3 +95,9 @@
         </div>
 
     </body>
+    <script>
+        let taxSwitch=document.getElementById("tax-toggle");
+        taxSwitch.addEventListener("click",()=>{
+            console.log("Clicked");
+        })
+    </script>
