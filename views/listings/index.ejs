@@ -5,6 +5,7 @@
             #filters {
                 display: flex;
                 flex-wrap: wrap;
+                align-items: center;
             }
 
             .filters {
@@ -25,6 +26,15 @@
             .tax-info{
                 font-size: 0.7rem;
                 display: none;
+            }
+            #tax-toggle{
+                border: 1px solid black;
+                border-radius: 1rem;
+                height: 2.5rem;
+                padding: 1rem;
+                margin-left: 3rem;
+                display: flex;
+                align-items: center;
             }
         </style>
         <div id="filters">
@@ -68,10 +78,10 @@
                 <i class="fa-solid fa-umbrella-beach"></i>
                 <p>Beach</p>
             </div>
-            <div class="filters">
+            <!-- <div class="filters">
                 <i class="fa-solid fa-house-flood-water"></i>
                 <p>Island</p>
-            </div>
+            </div> -->
             <div id="tax-toggle">
                 <div class="form-check-reverse form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
