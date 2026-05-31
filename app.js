@@ -5,7 +5,9 @@ const express = require("express");
 const app = express();
 const Listing = require("./models/listing.js"); // reuire from models folder
 const mongoose = require("mongoose");
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
+
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
@@ -55,7 +57,7 @@ const userRouter = require("./routes/user.js");
 
 //set up
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 //starting db:
 main()
