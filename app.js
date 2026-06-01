@@ -3,7 +3,7 @@ if (process.env.NODE_ENV != "production") {
 }
 const express = require("express");
 const app = express();
-const Listing = require("./models/listing.js"); // reuire from models folder
+const Listing = require("./models/listing.js"); 
 const mongoose = require("mongoose");
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL;
