@@ -15,6 +15,7 @@ const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./schemaValidate.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 //for authentication:
 const passport = require("passport");
@@ -36,8 +37,20 @@ app.engine("ejs", ejsMate);
 //for join the static files
 app.use(express.static(path.join(__dirname, "/public")));
 
+const store = MongoStore.create({
+  mongoUrl:dbUrl,
+  crypto:{
+    secret:"testSecret",
+  },
+  touchAfter:24 * 3600,
+
+});
+store.on("error",()=>{
+  console.log("ERROR IN MONGO SESSION store",err);
+})
 //sessions:
 const sessionOptions = {
+  store,
   secret: "testSecret",
   resave: false,
   saveUninitialized: true,
