@@ -11,21 +11,20 @@ const dbUrl = process.env.ATLASDB_URL;
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
-const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./schemaValidate.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require("connect-mongo").default;
+
 const flash = require("connect-flash");
 //for authentication:
 const passport = require("passport");
-const LocalStatergy = require("passport-local");
+const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 //for ejs
 const path = require("path");
 
 const ExpressError = require("./utils/expressError.js");
-const review = require("./models/review.js");
 //for ejs
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -37,7 +36,7 @@ app.engine("ejs", ejsMate);
 //for join the static files
 app.use(express.static(path.join(__dirname, "/public")));
 
-const store = MongoStore.create({
+const store = new MongoStore({
   mongoUrl:dbUrl,
   crypto:{
     secret:"testSecret",
@@ -45,7 +44,7 @@ const store = MongoStore.create({
   touchAfter:24 * 3600,
 
 });
-store.on("error",()=>{
+store.on("error",(err)=>{
   console.log("ERROR IN MONGO SESSION store",err);
 })
 //sessions:
@@ -55,7 +54,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: true,
   cookie: {
-    expires: Date.now() * 10 * 24 * 60 * 60 * 1000,
+    expires: Date.now() + 10 * 24 * 60 * 60 * 1000,
     maxAge: 10 * 24 * 60 * 60 * 1000,
     httpOnly: true,
   },
@@ -81,26 +80,26 @@ main()
     console.log(err);
   });
 
-//create a first route:
-app.get("/", (req, res) => {
-  res.send("done");
-});
-
+//Middlewares for authenticate
 app.use(session(sessionOptions));
 app.use(flash());
 
-//Middlewares for authenticate
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStatergy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.user || null;
   next();
+});
+
+//create a first route:
+app.get("/", (req, res) => {
+  res.redirect("/listings");
 });
 
 //listings routes: Reconstruct
@@ -128,7 +127,7 @@ app.use("/", userRouter);
 //middleware
 app.use((req, res, next) => {
   //for any route which dosen't exist
-  next(new expressError(404, "Page not found !!!"));
+  next(new ExpressError(404, "Page not found !!!"));
 });
 app.use((err, req, res, next) => {
   let { statusCode = 400, message = "something wen't wrong" } = err;
