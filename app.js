@@ -5,7 +5,6 @@ const express = require("express");
 const app = express();
 const Listing = require("./models/listing.js"); 
 const mongoose = require("mongoose");
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL;
 
 const methodOverride = require("method-override");
@@ -39,7 +38,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const store = new MongoStore({
   mongoUrl:dbUrl,
   crypto:{
-    secret:"testSecret",
+    secret:process.env.SECRET,
   },
   touchAfter:24 * 3600,
 
@@ -50,7 +49,7 @@ store.on("error",(err)=>{
 //sessions:
 const sessionOptions = {
   store,
-  secret: "testSecret",
+  secret:process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -108,21 +107,6 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 //user routes: Reconstruct
 app.use("/", userRouter);
-
-// new route for check listing
-// app.get("/listing",async (req,res)=>{
-//     const SampleListing=new Listing({
-//         title:"My new villa",
-//         description:"Ny the beach",
-//         image:"",
-//         price:7000,
-//         location:"West Goa",
-//         country:"India",
-//     });
-//     await SampleListing.save();
-//     console.log("Sample saved!!");
-//     res.send("Sample saved in db");
-// });
 
 //middleware
 app.use((req, res, next) => {
